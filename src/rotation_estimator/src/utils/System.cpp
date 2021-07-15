@@ -3,8 +3,11 @@
 #include "utils/System.h"
 #include "numerics.h"
 
-System::System(const std::string& yaml)
+System::System(const std::string &yaml, const std::string &output_dir)
 {
+    // yunfan
+    filePath = output_dir;
+
     std::cout << "\n" <<
             "RME-EC: Rotational Motion Estimation with Event Camera" << "\n" << "\n"
             "Copyright (C) 2020 Haram Kim" << "\n" <<
@@ -203,8 +206,27 @@ void System::Run()
     }
     double event_interval = eventBundle.time_stamp.back() - eventBundle.time_stamp.front();
 
+    // yunfan
+    static double max_event_ct = 0;
+    static double ct = 0;
+
     if (eventBundle.time_stamp.back() >= next_process_time || eventBundle.x.size() > max_event_num)
     {
+        ct++;
+        if (eventBundle.x.size() > max_event_num)
+            max_event_ct++;
+        static long intput_count = 0;
+        static long intput_num = 0;
+        static long max_num = 0;
+        if (eventBundle.x.size()>max_num)
+            max_num = eventBundle.x.size();
+        intput_count += eventBundle.x.size();
+        intput_num++;
+        std::cout << "avg eventBundle: " << intput_count / intput_num << std::endl;
+        std::cout << "max eventBundle: " << max_num << std::endl;
+        std::cout << "percentage: " << max_event_ct / ct << std::endl;
+        std::cout << "@@@@@@@@@@@@@@@@@@2"  << std::endl;
+
         next_process_time = eventBundle.time_stamp.back() + delta_time;
         eventBundle.SetCoord();
         EstimateMotion();

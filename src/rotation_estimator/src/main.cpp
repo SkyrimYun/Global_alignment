@@ -120,7 +120,12 @@ int main(int argc, char **argv)
 
     nodeHandler.param<std::string>("yaml", yaml, "");
 
-    System Sys(yaml);
+    // yunfan
+    std::string output_dir;
+    nodeHandler.param<std::string>("output_dir", output_dir, "");
+    std::cout << output_dir << std::endl;
+
+    System Sys(yaml, output_dir);
 
     ImageGrabber imageGrabber(&Sys);
     ImuGrabber imuGrabber(&Sys);

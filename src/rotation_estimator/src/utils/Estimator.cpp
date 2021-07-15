@@ -62,6 +62,19 @@ void System::ComputeAngularPosition(){
     eventAlignedPoints.angular_position = angular_position;
     eventMapPoints.push_back(eventAlignedPoints);
 
+    // yunfan
+    if (eventUndistortedPrev.size != 0 && angular_position != Eigen::Vector3f::Zero())
+    {
+        double t_bundle = eventUndistortedPrev.time_stamp.front() + 0.5 * (eventUndistortedPrev.time_stamp.back() - eventUndistortedPrev.time_stamp.front());
+        //double t_bundle = eventUndistortedPrev.time_stamp.front();
+
+        double rad = angular_position.norm();
+        Eigen::AngleAxisf aa(rad, angular_position / rad);
+        Eigen::Quaternionf q(aa);
+        static std::ofstream ofs_pos(filePath + "/position_rpg.txt");
+        ofs_pos << t_bundle << " 0 0 0 " << q.x() << " " << q.y() << " " << q.z() << " " << q.w() << std::endl;
+    }
+
     // initial angular position with angular velocity
     if(!std::isfinite(estimation_time_interval_prev) || estimation_time_interval_prev <= 0){
         std::cout << "estimation_time_interval is nan" << std::endl;

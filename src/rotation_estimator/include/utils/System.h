@@ -40,7 +40,7 @@ class System
 {
 public:
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-    System(const std::string& strSettingsFile);
+    System(const std::string &strSettingsFile, const std::string &output_dir);
 
     ~System();
 
