@@ -74,7 +74,7 @@ private:
     void DeriveErrAnalytic(const Eigen::Vector3f &temp_ang_vel);
     void DeriveErrAnalytic(const Eigen::Vector3f &temp_ang_vel, const Eigen::Vector3f &temp_ang_pos);
     void DeriveErrAnalyticMap(const Eigen::Vector3f &temp_ang_pos);
-    std::vector<uint16_t> GetValidIndexFromEvent(const EventBundle &event);
+    std::vector<uint32_t> GetValidIndexFromEvent(const EventBundle &event);
     void JacobianTrim();
     void ComputeAngularPosition();
     void UpdateAngularVelocity();
@@ -126,7 +126,7 @@ private:
     int max_event_num;
 
     // counter
-    uint16_t map_iter_begin;
+    uint32_t map_iter_begin;
 
     size_t event_data_iter;
     size_t image_data_iter;

@@ -101,9 +101,9 @@ void System::DeriveErrAnalytic(const Eigen::Vector3f &temp_ang_vel, const Eigen:
         }
     }
 
-    std::vector<uint16_t> e_valid = GetValidIndexFromEvent(eventWarped);
+    std::vector<uint32_t> e_valid = GetValidIndexFromEvent(eventWarped);
     
-    uint16_t valid_size = e_valid.size();
+    uint32_t valid_size = e_valid.size();
     xp.resize(valid_size);
     yp.resize(valid_size);
     zp.resize(valid_size);
@@ -119,8 +119,8 @@ void System::DeriveErrAnalytic(const Eigen::Vector3f &temp_ang_vel, const Eigen:
     
     int16_t coord_x;
     int16_t coord_y;
-    uint16_t e_valid_v_iter;
-    for (uint16_t v_iter = 0; v_iter < valid_size; v_iter++)
+    uint32_t e_valid_v_iter;
+    for (uint32_t v_iter = 0; v_iter < valid_size; v_iter++)
     {
         e_valid_v_iter = e_valid[v_iter];
 
@@ -222,9 +222,9 @@ void System::GetWarpedEventPoint(const EventBundle &eventIn, EventBundle &eventO
     }
 }
 
-std::vector<uint16_t> System::GetValidIndexFromEvent(const EventBundle & event){
-    std::vector<uint16_t> valid;
-    uint16_t valid_counter = 0;
+std::vector<uint32_t> System::GetValidIndexFromEvent(const EventBundle & event){
+    std::vector<uint32_t> valid;
+    uint32_t valid_counter = 0;
     for (auto e_iter = event.isInner.begin(); e_iter != event.isInner.end(); e_iter++){
         if(*e_iter){
             valid.push_back(valid_counter);
@@ -271,7 +271,7 @@ cv::Mat System::GetMapImage(const PlotOption &option /*= UNSIGNED_EVENT_IMAGE*/)
     map_image = cv::Scalar(0, 0, 0);
     cv::Mat map_image_temp = cv::Mat(height_map, width_map, CV_16UC3);
     EventBundle temp;
-    for (uint16_t m_iter = map_iter_begin; m_iter != eventMapPoints.size(); m_iter++){
+    for (uint32_t m_iter = map_iter_begin; m_iter != eventMapPoints.size(); m_iter++){
         EventBundle & curEvent = eventMapPoints.at(m_iter);
         curEvent.size = curEvent.coord_3d.rows();
         if(curEvent.size == 0 || SO3add(curEvent.angular_position, -angular_position).norm() > mapping_interval){

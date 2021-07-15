@@ -175,7 +175,7 @@ void System::BindEvent(){
 void System::BindMap(){
     eventMap.Clear();
     EventBundle temp;
-    for (uint16_t m_iter = map_iter_begin; m_iter != eventMapPoints.size(); m_iter++){
+    for (uint32_t m_iter = map_iter_begin; m_iter != eventMapPoints.size(); m_iter++){
         EventBundle & curEvent = eventMapPoints.at(m_iter);
         curEvent.size = curEvent.coord_3d.rows();
         if(curEvent.size == 0 || SO3add(curEvent.angular_position, -angular_position_prev).norm() > mapping_interval){

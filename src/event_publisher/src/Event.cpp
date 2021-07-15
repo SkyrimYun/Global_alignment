@@ -55,8 +55,8 @@ bool Event::eventReader(const std::string &filename)
             if (vToken.size() == 4)
             {
                 msg.ts = ros::Time(std::strtod(vToken[0].c_str(), &sz));
-                msg.x = uint16_t(std::strtod(vToken[1].c_str(), &sz));
-                msg.y = uint16_t(std::strtod(vToken[2].c_str(), &sz));
+                msg.x = uint32_t(std::strtod(vToken[1].c_str(), &sz));
+                msg.y = uint32_t(std::strtod(vToken[2].c_str(), &sz));
                 msg.polarity = uint8_t(std::strtod(vToken[3].c_str(), &sz));
 
                 // std::cout << "EVT::  "<< vToken[0]<< ",  "<< vToken[1]<< ",  "<< vToken[2]<< ",  "<< vToken[3] << std::endl;
