@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/yunfan/work_spaces/master_thesis/Globally_Aligned_Events/devel/include/**",
+        "/opt/ros/melodic/include/**",
+        "/home/yunfan/work_spaces/master_thesis/Globally_Aligned_Events/src/Globally_Aligned_Events/globally_aligned_events/event_bundler/include/**",
+        "/home/yunfan/work_spaces/master_thesis/Globally_Aligned_Events/src/Globally_Aligned_Events/globally_aligned_events/event_publisher/include/**",
+        "/home/yunfan/work_spaces/master_thesis/Globally_Aligned_Events/src/Globally_Aligned_Events/globally_aligned_events/rotation_estimator/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "compileCommands": "${workspaceFolder}/build/rotation_estimator/compile_commands.json"
+    }
+  ],
+  "version": 4
+}

@@ -1,0 +1,8 @@
+/build
+/devel
+/logs
+/catkin_simple
+/dvs_msgs
+/.catkin_tools
+/src/rotation_estimator/data
+/src/event_publisher/data
