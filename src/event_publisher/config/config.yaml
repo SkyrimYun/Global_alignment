@@ -13,5 +13,5 @@ height: 180
 # Event Parameters (tunable).
 #--------------------------------------------------------------------------------------------
 # size of real targets
-Event.delta_time: 0.0001
-Event.max_event: 1e5
+Event.delta_time: 10
+Event.max_event: 2000

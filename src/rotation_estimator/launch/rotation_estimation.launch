@@ -3,8 +3,8 @@
 
   <node name="rotation_estimator" pkg="rotation_estimator" type="rotation_estimation" output="screen">
     <remap from="/dvs/events" to="/dvs/bundle_events" />
-    <param name="yaml" type="string" value="$(find rotation_estimator)/config/config_ESIM.yaml" />
-    <param name="output_dir" type="string" value="$(find rotation_estimator)/data/ESIM_OpenGL" />
+    <param name="yaml" type="string" value="$(find rotation_estimator)/config/config.yaml" />
+    <param name="output_dir" type="string" value="$(find rotation_estimator)/data/shapes_rotation" />
   </node>
 
   <node name="event_bundler" pkg="event_bundler" type="bundler" output="screen">

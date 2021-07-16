@@ -177,6 +177,23 @@ void System::BindEvent(){
 
 void System::BindMap(){
     eventMap.Clear();
+
+    //yunfan
+    // if (eventMapPoints.size() > global_map_frame)
+    // {
+    //     while (eventMapPoints.size() != global_map_frame)
+    //         eventMapPoints.erase(eventMapPoints.begin());
+    // }
+    // for (EventBundle &curEvent : eventMapPoints)
+    // {
+    //     curEvent.size = curEvent.coord_3d.rows();
+    //     if (curEvent.size == 0)
+    //     {
+    //         continue;
+    //     }
+    //     eventMap.Append(curEvent);
+    // }
+
     EventBundle temp;
     for (uint32_t m_iter = map_iter_begin; m_iter != eventMapPoints.size(); m_iter++){
         EventBundle & curEvent = eventMapPoints.at(m_iter);

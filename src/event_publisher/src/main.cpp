@@ -68,6 +68,7 @@ int main(int argc, char **argv)
     double time_begin = double(ros::Time::now().toSec());
     double time_curr, time;
 
+    
     ROS_INFO("Start publishing data");
     while (ros::ok())
     {
@@ -81,7 +82,9 @@ int main(int argc, char **argv)
         event.setImage(image.last_image);
 
         event.publish();
+
         imu.publish();
+
         image.publish();
 
         ros::spinOnce();

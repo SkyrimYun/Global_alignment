@@ -7,7 +7,7 @@ Version: 1.0
 #--------------------------------------------------------------------------------------------
 
 # rate of systemmatic samplling for events
-sampling_rate: 5
+sampling_rate: 6
 # rate of systemmatic samplling for globally aligned events
 map_sampling_rate: 1
 # event image theshold T_rho
@@ -23,12 +23,12 @@ optimization_view_index: 1e3
 # view angle difference range to utilize globally aligned events (unit: radians) 
 mapping_interval: 0.628
 # scale of view for globally aligned events
-map_scale: 2
+map_scale: 5
 
 #--------------------------------------------------------------------------------------------
 # Event Parameters
 #--------------------------------------------------------------------------------------------
-delta_time: 0.008
+delta_time: 0.0008
 max_event_num: 1e5
 
 #--------------------------------------------------------------------------------------------

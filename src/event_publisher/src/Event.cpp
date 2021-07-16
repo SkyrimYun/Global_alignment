@@ -49,7 +49,7 @@ bool Event::eventReader(const std::string &filename)
         {
             dvs_msgs::Event msg;
             std::stringstream ss(line);
-            while (getline(ss, token, '\t'))
+            while (ss>>token)
                 vToken.push_back(token);
 
             if (vToken.size() == 4)
@@ -82,6 +82,8 @@ void Event::publish()
     msg->height = height;
     msg->width = width;
     // add events on event array until the ts of an event is less than the current time.
+
+
     while (eventData.at(count).ts.toSec() <= time_curr)
     {
         msg->events.push_back(eventData.at(count));
