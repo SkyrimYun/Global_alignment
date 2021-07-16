@@ -28,15 +28,15 @@ map_scale: 2
 #--------------------------------------------------------------------------------------------
 # Event Parameters
 #--------------------------------------------------------------------------------------------
-delta_time: 10
-max_event_num: 2000
+delta_time: 0.025
+max_event_num: 1e5
 
 #--------------------------------------------------------------------------------------------
 # Optimizer Parameters
 #--------------------------------------------------------------------------------------------
 
 # maximum iteration
-Optimizer.max_iter: 100
+Optimizer.max_iter: 65
 # step size | optimization rate
 Optimizer.mu_angular_velocity: 0.05
 # smoothing factor | the degree of weigthing decrease in geometric moving average  

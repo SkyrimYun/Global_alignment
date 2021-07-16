@@ -13,8 +13,8 @@ int main(int argc, char **argv)
 
     EventBundler eventBundler(yaml);
 
-    ros::Publisher event_publisher = nh.advertise<dvs_msgs::EventArray>("/bundle_events", 10);
-    ros::Subscriber event_sub = nh.subscribe("/events", 10, &EventBundler::GrabEvent, &eventBundler);
+    ros::Publisher event_publisher = nh.advertise<dvs_msgs::EventArray>("/bundle_events", 0);
+    ros::Subscriber event_sub = nh.subscribe("/events", 0, &EventBundler::GrabEvent, &eventBundler);
     double time_begin = ros::Time::now().toSec();
 
     eventBundler.setEventPublisher(&event_publisher);

@@ -132,9 +132,9 @@ int main(int argc, char **argv)
     EventGrabber eventGrabber(&Sys);
 
     
-    ros::Subscriber image_sub = nodeHandler.subscribe("/dvs/image_raw", 10, &ImageGrabber::GrabImage, &imageGrabber);
-    ros::Subscriber imu_sub = nodeHandler.subscribe("/dvs/imu", 100, &ImuGrabber::GrabImu, &imuGrabber);
-    ros::Subscriber event_sub = nodeHandler.subscribe("/dvs/events", 10, &EventGrabber::GrabEvent, &eventGrabber);
+    ros::Subscriber image_sub = nodeHandler.subscribe("/dvs/image_raw", 0, &ImageGrabber::GrabImage, &imageGrabber);
+    ros::Subscriber imu_sub = nodeHandler.subscribe("/dvs/imu", 0, &ImuGrabber::GrabImu, &imuGrabber);
+    ros::Subscriber event_sub = nodeHandler.subscribe("/dvs/events", 0, &EventGrabber::GrabEvent, &eventGrabber);
 
     ros::spin();
 

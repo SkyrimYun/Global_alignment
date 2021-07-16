@@ -2,5 +2,5 @@
 
 Version: 1.0
 
-delta_time: 10
-max_events: 2000
+delta_time: 0.004
+max_events: 1e5

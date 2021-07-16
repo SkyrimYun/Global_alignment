@@ -41,10 +41,10 @@ int main(int argc, char **argv)
     nh_private.param<std::string>("yaml", yaml, "");
     nh_private.param<bool>("loop", loop, "");
 
-    ros::Publisher event_array_pub = nh_private.advertise<dvs_msgs::EventArray>("/events", 10);
-    ros::Publisher imu_pub = nh_private.advertise<sensor_msgs::Imu>("/imu", 10);
-    ros::Publisher image_pub = nh_private.advertise<sensor_msgs::Image>("/image", 10);
-    ros::Publisher dvs_image_pub = nh_private.advertise<sensor_msgs::Image>("/renderer", 10);
+    ros::Publisher event_array_pub = nh_private.advertise<dvs_msgs::EventArray>("/events", 0);
+    ros::Publisher imu_pub = nh_private.advertise<sensor_msgs::Imu>("/imu", 0);
+    ros::Publisher image_pub = nh_private.advertise<sensor_msgs::Image>("/image", 0);
+    ros::Publisher dvs_image_pub = nh_private.advertise<sensor_msgs::Image>("/renderer", 0);
     
     ros::Rate loop_rate(10);
 
