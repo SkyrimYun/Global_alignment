@@ -215,7 +215,6 @@ void System::ClearEvent(){
 // run the algorithm
 void System::Run()
 {
-    double time_begin = ros::Time::now().toSec();
     BindEvent();
     if(eventBundle.time_stamp.size() == 0){
         return;
@@ -223,39 +222,29 @@ void System::Run()
     double event_interval = eventBundle.time_stamp.back() - eventBundle.time_stamp.front();
 
     // yunfan
-    static double max_event_ct = 0;
-    static double ct = 0;
+    static long intput_count = 0;
+    static long intput_num = 0;
+    static long max_num = 0;
 
-    if (eventBundle.time_stamp.back() >= next_process_time || eventBundle.x.size() > max_event_num)
-    {
-        ct++;
-        if (eventBundle.x.size() > max_event_num)
-            max_event_ct++;
-        static long intput_count = 0;
-        static long intput_num = 0;
-        static long max_num = 0;
-        if (eventBundle.x.size()>max_num)
-            max_num = eventBundle.x.size();
-        intput_count += eventBundle.x.size();
-        intput_num++;
-        std::cout << "avg eventBundle: " << intput_count / intput_num << std::endl;
-        std::cout << "max eventBundle: " << max_num << std::endl;
-        std::cout << "percentage: " << max_event_ct / ct << std::endl;
-        std::cout << "@@@@@@@@@@@@@@@@@@2"  << std::endl;
 
-        next_process_time = eventBundle.time_stamp.back() + delta_time;
-        eventBundle.SetCoord();
-        EstimateMotion();
-        Renderer();
-        Visualize();
-        ClearEvent();
-    }
-    
-    // for dataset repeat 
-    if (vec_event_data.back().time_stamp < delta_time)
-    {
-        next_process_time = delta_time;
-    }
+    if (eventBundle.x.size()>max_num)
+        max_num = eventBundle.x.size();
+    intput_count += eventBundle.x.size();
+    intput_num++;
+    std::cout << "avg eventBundle: " << intput_count / intput_num << std::endl;
+    std::cout << "max eventBundle: " << max_num << std::endl;
+    std::cout << "cur eventBundle: " << eventBundle.x.size() << std::endl;
+    std::cout << "time interval: " << event_interval << std::endl;
+    std::cout << "Number: " << intput_num << std::endl;
+    std::cout << "@@@@@@@@@@@@@@@@@@2"  << std::endl;
+
+    next_process_time = eventBundle.time_stamp.back() + delta_time;
+    eventBundle.SetCoord();
+    EstimateMotion();
+    Renderer();
+    Visualize();
+    ClearEvent();
+   
 }
 
 void System::RunUptoIdx(){

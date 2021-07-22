@@ -7,7 +7,7 @@ Version: 1.0
 #--------------------------------------------------------------------------------------------
 
 # rate of systemmatic samplling for events
-sampling_rate: 5
+sampling_rate: 8
 # rate of systemmatic samplling for globally aligned events
 map_sampling_rate: 1
 # event image theshold T_rho

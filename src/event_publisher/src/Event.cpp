@@ -3,11 +3,9 @@
 Event::Event(std::string yaml)
 {
     msg = dvs_msgs::EventArrayPtr(new dvs_msgs::EventArray());
-    isEmpty = false;
-    isRunning = true;
-    count = 0;
-    seq = 0;
+  
     next_send_time = 0.0;
+
     // read yaml file
     cv::FileStorage fSettings(yaml, cv::FileStorage::READ);
     if (!fSettings.isOpened())
@@ -26,7 +24,7 @@ Event::Event(std::string yaml)
 Event::~Event(){
 }
 
-bool Event::eventReader(const std::string &filename)
+void Event::eventReader(const std::string &filename)
 {
     std::vector<dvs_msgs::Event> Data;
     std::string file_;
@@ -64,98 +62,37 @@ bool Event::eventReader(const std::string &filename)
             }
             vToken.clear();
         }
-
         openFile.close();
     }
     this->eventData = Data;
-    this->isEmpty = this->eventData.size() == 0;
-
-    return this->isEmpty;
+    std::cout << "event data size: " << eventData.size() << std::endl;
 }
 
 void Event::publish()
 {
-    if (!msg)
+    int count = 0;
+    long iterator = 0;
+    while(iterator < eventData.size()-1)
     {
         msg = dvs_msgs::EventArrayPtr(new dvs_msgs::EventArray());
-    }
-    msg->height = height;
-    msg->width = width;
-    // add events on event array until the ts of an event is less than the current time.
-
-
-    while (eventData.at(count).ts.toSec() <= time_curr)
-    {
-        msg->events.push_back(eventData.at(count));
-        msg->header.seq = seq++;
-        msg->header.stamp = eventData.at(count).ts;
         count++;
-        if (count >= eventData.size())
+        msg->height = height;
+        msg->width = width;
+        double init_time = eventData.at(iterator).ts.toSec();
+        while (eventData.at(iterator).ts.toSec() - init_time <= delta_time && msg->events.size() < max_events && iterator < eventData.size()-1)
         {
-            isRunning = false;
-            count = eventData.size() - 1;
-            break;
+            msg->events.push_back(eventData.at(iterator));
+            msg->header.seq = seq++;
+            msg->header.stamp = eventData.at(iterator).ts;
+            iterator++;
         }
-    }
-
-    if (time_curr > next_send_time || msg->events.size() > max_events)
-    {
-        // publish renderer
-        renderer();
-        this->dvs_image_pub->publish(cv_image.toImageMsg());
-
-        // publish event
+        std::cout << count << " msg dur: " << msg->events.back().ts.toSec() - msg->events.front().ts.toSec() << "; msg size: " << msg->events.size() << std::endl;
         this->event_array_pub->publish(msg);
-        next_send_time = time_curr + delta_time;
-        msg.reset();
-    }    
-}
-
-void Event::renderer()
-{
-    // use color renderer
-    cv_image.encoding = "bgr8";
-
-    if (last_image.rows == height && last_image.cols == width)
-    {
-        cv::Mat last_image_;
-        cv::cvtColor(last_image, last_image_, CV_GRAY2BGR);
-        last_image_.copyTo(cv_image.image);
-    }
-    else
-    {
-        cv_image.image = cv::Mat(height, width, CV_8UC3);
-        cv_image.image = cv::Scalar(0, 0, 0);
-    }
-
-    for (int i = 0; i < msg->events.size(); ++i)
-    {
-        const int x = msg->events[i].x;
-        const int y = msg->events[i].y;
-
-        cv_image.image.at<cv::Vec3b>(cv::Point(x, y)) = (msg->events[i].polarity == true ? cv::Vec3b(255, 0, 0) : cv::Vec3b(0, 0, 255));
     }
 }
 
-void Event::setCurrTime(double time){
-    this->time_curr = time;
-}
 
 void Event::setEventPublisher(ros::Publisher *pub){
     this->event_array_pub = pub;
 }
 
-void Event::setDvsPublisher(ros::Publisher *pub){
-    this->dvs_image_pub = pub;
-}
-
-void Event::setImage(const cv::Mat &image){
-    image.copyTo(this->last_image);
-}
-
-void Event::reset(){
-    next_send_time = 0.0;
-    count = 0;
-    seq = 0;
-    isRunning = true;
-}

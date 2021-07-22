@@ -13,12 +13,7 @@
 // messages
 #include <dvs_msgs/Event.h>
 #include <dvs_msgs/EventArray.h>
-#include <sensor_msgs/Imu.h>
-#include <sensor_msgs/Image.h>
-#include <sensor_msgs/image_encodings.h>
 #include "Event.h"
-#include "IMU.h"
-#include "Image.h"
 
 // file manager
 #include <iostream>
@@ -36,72 +31,22 @@ int main(int argc, char **argv)
 
     std::string filename = "filename";
     std::string yaml = "yaml";
-    bool loop = false;
     nh_private.param<std::string>("filename", filename, "");
     nh_private.param<std::string>("yaml", yaml, "");
-    nh_private.param<bool>("loop", loop, "");
 
     ros::Publisher event_array_pub = nh_private.advertise<dvs_msgs::EventArray>("/events", 0);
-    ros::Publisher imu_pub = nh_private.advertise<sensor_msgs::Imu>("/imu", 0);
-    ros::Publisher image_pub = nh_private.advertise<sensor_msgs::Image>("/image", 0);
-    ros::Publisher dvs_image_pub = nh_private.advertise<sensor_msgs::Image>("/renderer", 0);
     
-    ros::Rate loop_rate(10);
 
     Event event(yaml);
-    IMU imu(yaml);
-    Image image(yaml);
 
     ROS_INFO("Reading event data");
-    bool isEventEmpty = event.eventReader(filename);
-    ROS_INFO("Reading imu data");
-    bool isImuEmpty = imu.imuReader(filename);
-    ROS_INFO("Reading image data");
-    bool isImageEmpty = image.imageReader(filename);
+    event.eventReader(filename);
 
     event.setEventPublisher(&event_array_pub);
-    event.setDvsPublisher(&dvs_image_pub);
-    imu.setIMUPublisher(&imu_pub);
-    image.setImagePublisher(&image_pub);
-
-    // initialize
-    double time_begin = double(ros::Time::now().toSec());
-    double time_curr, time;
-
     
-    ROS_INFO("Start publishing data");
-    while (ros::ok())
-    {
-        time = double(ros::Time::now().toSec());
-        time_curr = time - time_begin;
+    ROS_INFO("Begin to publish data");
+    event.publish();
 
-        event.setCurrTime(time_curr);
-        imu.setCurrTime(time_curr);
-        image.setCurrTime(time_curr);
-
-        event.setImage(image.last_image);
-
-        event.publish();
-
-        imu.publish();
-
-        image.publish();
-
-        ros::spinOnce();
-        
-        // termination condition
-        if(!(event.isRunning || imu.isRunning || image.isRunning)){
-            if(loop){
-                time_begin = time;
-                event.reset();
-                image.reset();
-                imu.reset();
-            }
-            else{
-                break;
-            }            
-        }
-    }
     ROS_INFO("Finish publishing data");
     
     return 0;

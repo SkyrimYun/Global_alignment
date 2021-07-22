@@ -26,8 +26,7 @@ private:
     std::vector< dvs_msgs::Event > eventData;
 
     //temporay image
-    cv::Mat last_image;
-    cv_bridge::CvImage cv_image;
+ 
     dvs_msgs::EventArrayPtr msg;
     
 public:
@@ -35,31 +34,25 @@ public:
     ~Event();
 
     //functions
-    bool eventReader(const std::string &filename);
+    void eventReader(const std::string &filename);
     void publish();
-    void renderer();
 
-    void setCurrTime(double time);
+
+
     void setEventPublisher(ros::Publisher *pub);
-    void setDvsPublisher(ros::Publisher *pub);
-    void setImage(const cv::Mat &image);
-    void reset();
+   
 
     ros::Publisher* event_array_pub;
-    ros::Publisher* dvs_image_pub;
+
 
     //variables
     int height, width;
-    bool isEmpty;
-    bool isRunning;
-    int count;
+
     uint32_t seq;
 
     double delta_time;
     double next_send_time;
     int max_events;
-
-    double time_curr;
 };
 
 #endif //__EVENT_H__
